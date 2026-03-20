@@ -97,6 +97,49 @@ plt.show()
 
 Se aplicó la Transformada de Fourier para obtener su espectro en frecuencia con el siguiente codigo en python.
 
+```phyton
+senales = [
+    ("Mujer 1", signal1, fs1),
+    ("Mujer 2", signal2, fs2),
+    ("Mujer 3", signal3, fs3),
+    ("Hombre 1", signal4, fs4),
+    ("Hombre 2", signal5, fs5),
+    ("Hombre 3", signal6, fs6)
+]
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+fig, axes = plt.subplots(
+    nrows=len(senales), ncols=1,
+    figsize=(12, 2.8*len(senales)),
+    sharex=True
+)
+
+fny_comun = min(fs/2 for _, _, fs in senales)
+ymax = 0.0
+espectros = []
+
+for (titulo, senal, fs) in senales:
+    N = len(senal)
+    freqs = np.fft.rfftfreq(N, 1/fs)
+    espectro = np.abs(np.fft.rfft(senal))
+    idx = freqs <= fny_comun
+    espectros.append((titulo, freqs[idx], espectro[idx]))
+    ymax = max(ymax, espectro[idx].max())
+
+for ax, (titulo, F, X) in zip(axes, espectros):
+    Fp = F[1:]
+    Xp = X[1:]
+    ax.semilogx(Fp, Xp)
+    ax.set_title(titulo)
+    ax.set_ylabel('Amplitud')
+    ax.grid(True, which='both', linestyle='--', alpha=0.6)
+axes[-1].set_xlabel('Frecuencia (Hz)')
+
+fig.tight_layout(); plt.show()
+
+```
 
 **3. Calculos de las caracteristicas de la señal**
 
