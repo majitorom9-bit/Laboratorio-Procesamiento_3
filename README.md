@@ -85,7 +85,7 @@ axs[5].set_xlabel('Tiempo (s)')
 plt.tight_layout()
 plt.show()
 
-```python
+```
 
 **Señales voces de mujeres**
 
