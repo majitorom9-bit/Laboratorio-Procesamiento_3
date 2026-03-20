@@ -223,15 +223,18 @@ Los datos obtenidos fueron:
 
 **4. Diagrama de flujo**
 
+<img width="341" height="896" alt="image" src="https://github.com/user-attachments/assets/6a5329b3-6f9c-44da-8c1b-9ec7c73d6655" />
+
 
 # PARTE B
 **1. Seleccion de voces**
 
-Se seleccionó una señal de voz una de hombre y una de mujer
+Se seleccionó una señal de voz un de hombre ( hombre 3 ) y una de mujer (mujer 1)
 
 **2. Diseño de filtro pasa-banda**
 
 Se diseño un filtro pasa-banda con el rango de la voz entre 80Hz y 400Hz para hombre y 150Hz y 500Hz para mujeres con el objetivo de eliminar ruido no deseado.
+el diseño del filtro fue hecho a mano con el fin de calcular el orden y así poder 
 
 **3. Calculos de jitter y del shimmer**
 
