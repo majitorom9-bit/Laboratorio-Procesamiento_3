@@ -239,6 +239,13 @@ Los datos obtenidos fueron:
 
 
 # PARTE B
+
+Ahora bien, en esta parte se seleccionó una grabación de voz masculina y una femenina para realizar un análisis más detallado de estabilidad vocal. Primero, se aplicó un filtro pasa-banda en el rango correspondiente a cada género (80–400 Hz para hombres y 150–500 Hz para mujeres), con el fin de eliminar ruido externo y conservar únicamente las frecuencias relevantes de la voz.
+
+Posteriormente, se calculó el jitter, que representa la variación en el periodo de la señal entre ciclos consecutivos; para ello, los periodos se estimaron mediante la detección de cruces por cero. Por otro lado, el shimmer, que mide la variación en la amplitud entre ciclos consecutivos, se obtuvo a partir de la detección de picos sucesivos en la señal.
+
+A partir de estos valores, se calcularon tanto las medidas absolutas como relativas de jitter y shimmer. Finalmente, se registraron los resultados para todas las grabaciones, lo que permitió comparar la estabilidad vocal entre hombres y mujeres y analizar posibles diferencias en la regularidad de sus señales.
+
 **1. Seleccion de voces**
 
 Se seleccionó una señal de voz un de hombre ( hombre 3 ) y una de mujer (mujer 1)
