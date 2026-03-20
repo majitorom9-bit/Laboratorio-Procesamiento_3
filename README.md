@@ -255,6 +255,12 @@ Se seleccionó una señal de voz un de hombre ( hombre 3 ) y una de mujer (mujer
 Se diseño un filtro pasa-banda con el rango de la voz entre 80Hz y 400Hz para hombre y 150Hz y 500Hz para mujeres con el objetivo de eliminar ruido no deseado.
 el diseño del filtro fue hecho a mano con el fin de calcular el orden y así poder hacer su respectivo código para poder realizar el filtrado de las señales.
 
+**Filtro pasa-banda a mano**
+
+<img width="964" height="1280" alt="image" src="https://github.com/user-attachments/assets/e668080f-0372-461e-a360-0bc13e6fbfab" />
+<img width="991" height="1280" alt="image" src="https://github.com/user-attachments/assets/250ae36a-d6fc-481e-8d31-acf4732ecc6a" />
+
+
 **código utilizado para el filtro pasabandas**
 ```phyton
 import numpy as np
