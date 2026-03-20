@@ -145,6 +145,13 @@ axes[-1].set_xlabel('Frecuencia (Hz)')
 fig.tight_layout(); plt.show()
 
 ```
+Los espectros obtenidos como resultado fueron:
+
+<img width="1046" height="681" alt="image" src="https://github.com/user-attachments/assets/f54161d9-4d0a-4e18-ab0e-9e351516f3c6" />
+
+
+<img width="1023" height="718" alt="image" src="https://github.com/user-attachments/assets/91b1ca59-ecaa-4aa4-a64e-991797d5df2f" />
+
 
 **3. Calculos de las caracteristicas de la señal**
 
