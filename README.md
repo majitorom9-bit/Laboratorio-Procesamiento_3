@@ -256,9 +256,12 @@ Se diseño un filtro pasa-banda con el rango de la voz entre 80Hz y 400Hz para h
 el diseño del filtro fue hecho a mano con el fin de calcular el orden y así poder hacer su respectivo código para poder realizar el filtrado de las señales.
 
 **Filtro pasa-banda a mano**
+Pasa-Banda para hombres
+<img width="1183" height="1600" alt="image" src="https://github.com/user-attachments/assets/f7587cc8-e896-4a1d-afbf-a06c15199f96" />
 
-<img width="964" height="1280" alt="image" src="https://github.com/user-attachments/assets/e668080f-0372-461e-a360-0bc13e6fbfab" />
-<img width="991" height="1280" alt="image" src="https://github.com/user-attachments/assets/250ae36a-d6fc-481e-8d31-acf4732ecc6a" />
+Pasa-Banda para mujeres
+
+<img width="1201" height="1600" alt="image" src="https://github.com/user-attachments/assets/c99cc8a2-7390-498f-8387-e04b9700b5e9" />
 
 
 **código utilizado para el filtro pasabandas**
