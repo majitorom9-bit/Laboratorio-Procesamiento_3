@@ -253,9 +253,121 @@ Se seleccionó una señal de voz un de hombre ( hombre 3 ) y una de mujer (mujer
 **2. Diseño de filtro pasa-banda**
 
 Se diseño un filtro pasa-banda con el rango de la voz entre 80Hz y 400Hz para hombre y 150Hz y 500Hz para mujeres con el objetivo de eliminar ruido no deseado.
-el diseño del filtro fue hecho a mano con el fin de calcular el orden y así poder 
+el diseño del filtro fue hecho a mano con el fin de calcular el orden y así poder hacer su respectivo código para poder realizar el filtrado de las señales.
 
-**3. Calculos de jitter y del shimmer**
+**código utilizado para el filtro pasabandas**
+```phyton
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.signal import butter, filtfilt
+
+def filtro_pasabanda(x, fs, lowcut, highcut, orden):
+    nyq = 0.5 * fs
+    low = lowcut / nyq
+    high = highcut / nyq
+    b, a = butter(orden, [low, high], btype='band')
+    return filtfilt(b, a, x)
+
+orden = 3
+
+# Aplicar 
+mujer1_filtrada = filtro_pasabanda(signal1, fs3, 80, 500, orden)
+mujer2_filtrada = filtro_pasabanda(signal2, fs3, 80, 500, orden)
+mujer3_filtrada = filtro_pasabanda(signal3, fs3, 80, 500, orden)
+hombre1_filtrada = filtro_pasabanda(signal4, fs6, 80, 500, orden)
+hombre2_filtrada = filtro_pasabanda(signal5, fs6, 80, 500, orden)
+hombre3_filtrada = filtro_pasabanda(signal6, fs6, 80, 500, orden)
+
+# Ejes de tiempo 
+t_mujer = np.arange(len(signal1)) / fs3
+t_hombre = np.arange(len(signal6)) / fs6
+
+plt.figure(figsize=(12,6))
+
+#  MUJER
+plt.subplot(2,1,1)
+plt.plot(t_mujer, signal1, label="Original", alpha=0.6)
+plt.plot(t_mujer, mujer1_filtrada, label="Filtrada", linewidth=2)
+plt.title(" Mujer 1")
+plt.xlabel("Tiempo [s]")
+plt.ylabel("Amplitud")
+plt.legend()
+plt.grid()
+
+# HOMBRE
+plt.subplot(2,1,2)
+plt.plot(t_hombre, signal6, label="Original ", alpha=0.6)
+plt.plot(t_hombre, hombre3_filtrada, label="Filtrada ", linewidth=2)
+plt.title("Hombre 3")
+plt.xlabel("Tiempo [s]")
+plt.ylabel("Amplitud")
+plt.legend()
+plt.grid()
+
+plt.tight_layout()
+plt.show()
+```
+Dandonos como resultado las gráficas:
+
+<img width="1014" height="507" alt="image" src="https://github.com/user-attachments/assets/9e373588-c877-4038-834a-57d0c0319240" />
+
+**3. Ventana de 15 milisegundos**
+
+Se implementó una ventana de 15 milisegundos en segmentos específicos de la señal donde se evidenciaba mayor presencia de voz, con el fin de aislar regiones cuasi-periódicas y garantizar un análisis más preciso del jitter y el shimmer, minimizando la influencia de ruido y de tramos no vocales.
+El código utilizado para esta ventana fue:
+
+```phyton
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+# Duración ventana
+
+duracion = 0.015  # 15 ms
+
+
+filtradas = [
+    mujer1_filtrada, mujer2_filtrada, mujer3_filtrada,
+    hombre1_filtrada, hombre2_filtrada, hombre3_filtrada
+]
+
+fs_list = [fs3, fs3, fs3, fs6, fs6, fs6]
+
+nombres = [
+    "Mujer 1", "Mujer 2", "Mujer 3",
+    "Hombre 1", "Hombre 2", "Hombre 3"
+]
+
+
+#  zonas
+
+tiempos_inicio = [1.0, 1.6, 1.0, 2.6, 2.3, 3.5]
+
+
+# 4. Grafica de ventanas
+
+plt.figure(figsize=(12,10))
+
+for i, (x, fs, nombre, t_ini) in enumerate(zip(filtradas, fs_list, nombres, tiempos_inicio)):
+    
+    N = int(duracion * fs)
+    inicio = int(t_ini * fs)
+    
+    segmento = x[inicio:inicio + N]
+    t = np.arange(len(segmento)) / fs
+    
+    plt.subplot(3,2,i+1)
+    plt.plot(t, segmento)
+    plt.title(f"Ventana 15 ms - {nombre}")
+    plt.xlabel("Tiempo [s]")
+    plt.ylabel("Amplitud")
+    plt.grid()
+
+plt.tight_layout()
+plt.show()
+```
+
+**4. Calculos de jitter y del shimmer**
 
 Luego, se calcularon los valores de jitter, analizando la variación de los periodos de la señal, y de shimmer, evaluando la variación de la amplitud entre ciclos. Estos cálculos se realizaron para todas las grabaciones con el fin de analizar la estabilidad de las voces.
 
