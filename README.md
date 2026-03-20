@@ -9,6 +9,84 @@ El objetivo de esta práctica fue analizar señales de voz mediante herramientas
 **1. Obtener las señales de voces**
 En esta etapa se grabaron seis señales de voz entre hombre y mujeres pronunciando la misma frase, procurando mantener condiciones similares en la grabación. Despues, los audios se guardaron en formato .wav y se importaron en Python para su análisis y finalmente se graficaron.
 
+**Código utilizado para la gráfica**
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.io import wavfile
+
+# mujeres
+fs1,signal1=  wavfile.read('Mujer-1.wav')
+fs2,signal2=  wavfile.read('Mujer-2.wav')
+fs3,signal3=  wavfile.read('Mujer-3.wav')
+
+# Hombres
+fs4,signal4=  wavfile.read('Hombre-1.wav')
+fs5,signal5= wavfile.read('Hombre-2.wav')
+fs6,signal6= wavfile.read('Hombre-3.wav')
+
+
+duracion = len(signal1)/fs1
+
+duracion = len(signal2)/fs1
+
+duracion = len(signal3)/fs1
+
+
+duracion = len(signal4)/fs1
+
+duracion = len(signal5)/fs1
+
+duracion = len(signal6)/fs1
+
+
+Tiempo1 = np.arange(len(signal1)) / fs1
+Tiempo2 = np.arange(len(signal2)) / fs2
+Tiempo3 = np.arange(len(signal3)) / fs3
+Tiempo4 = np.arange(len(signal4)) / fs4
+Tiempo5 = np.arange(len(signal5)) / fs5
+Tiempo6 = np.arange(len(signal6)) / fs6
+fig, axs = plt.subplots(6,1, figsize=(14,10),sharex=False)
+
+print(len(Tiempo3),len(signal3))
+
+# graficas
+axs[0].plot(Tiempo1, signal1)
+axs[0].set_title("Mujer 1")
+axs[0].set_ylabel('Bits')
+axs[0].set_xlabel('Tiempo (s)')
+
+axs[1].plot(Tiempo2, signal2)
+axs[1].set_title("Mujer 2")
+axs[1].set_ylabel('Bits')
+axs[1].set_xlabel('Tiempo (s)')
+
+axs[2].plot(Tiempo3, signal3)
+axs[2].set_title("Mujer 3")
+axs[2].set_ylabel('Bits')
+axs[2].set_xlabel('Tiempo (s)')
+
+axs[3].plot(Tiempo4, signal4)
+axs[3].set_title("Hombre 1")
+axs[3].set_ylabel('Bits')
+axs[3].set_xlabel('Tiempo (s)')
+
+axs[4].plot(Tiempo5, signal5)
+axs[4].set_title("Hombre 2")
+axs[4].set_ylabel('Bits')
+axs[4].set_xlabel('Tiempo (s)')
+
+axs[5].plot(Tiempo6, signal6)
+axs[5].set_title("Hombre 3")
+axs[5].set_ylabel('Bits')
+axs[5].set_xlabel('Tiempo (s)')
+
+plt.tight_layout()
+plt.show()
+
+```python
+
 **Señales voces de mujeres**
 
 
