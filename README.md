@@ -74,10 +74,9 @@ Por otro lado, la intensidad de la señal, calculada como el valor promedio cuad
 En general, el análisis realizado permitió identificar diferencias claras entre las voces masculinas y femeninas, especialmente en parámetros como la frecuencia fundamental, la frecuencia media y el brillo, los cuales fueron mayores en las voces femeninas. Por su parte, la intensidad no mostró una tendencia definida según el género. Estos resultados demuestran que el análisis espectral es una herramienta efectiva para caracterizar señales de voz y diferenciarlas según sus propiedades, cumpliendo con los objetivos planteados en la práctica.
 
 # ANALISIS PARTE B
-# ANALISIS PARTE C 
-# ANALISIS PARTE D 
 
 # ANALISIS GENERAL
+
 # PREGUNTAS A DISCUCION
 
 1. ¿Cómo es la frecuencia fundamental de la densidad espectral de potencia asociada a una señal de voz masculina con respecto a la que se obtiene a partir de una señal de voz femenina, mayor o menor? ¿Qué hay del valor RMS?
