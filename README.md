@@ -521,6 +521,11 @@ Dando como resultado:
 
 <img width="281" height="380" alt="image" src="https://github.com/user-attachments/assets/aa29f372-b4ea-4bd6-a3d9-9e4804786360" />
 
+**Diagrama de flujo**
+
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/c98feab8-32a1-4ca1-ac38-1b2f258e857e" />
+
+
 
 # PARTE C
 
