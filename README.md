@@ -90,8 +90,12 @@ plt.show()
 
 **Señales voces de mujeres**
 
+<img width="1339" height="458" alt="image" src="https://github.com/user-attachments/assets/9b41b0c2-ba11-43b4-a1c1-98ca9930fe50" />
+
 
 **Señales voces de hombres**
+
+<img width="1393" height="456" alt="image" src="https://github.com/user-attachments/assets/464cc2fa-294c-479b-b1e5-03bac1f2cf5e" />
 
 
 **2. Transformada y espectro de magnitud**
