@@ -235,7 +235,8 @@ Los datos obtenidos fueron:
 
 **4. Diagrama de flujo**
 
-<img width="341" height="896" alt="image" src="https://github.com/user-attachments/assets/6a5329b3-6f9c-44da-8c1b-9ec7c73d6655" />
+<img width="158" height="689" alt="image" src="https://github.com/user-attachments/assets/ecf6e875-b0f7-4b72-b724-c4d2c4191622" />
+
 
 
 # PARTE B
