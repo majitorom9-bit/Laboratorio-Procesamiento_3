@@ -366,10 +366,150 @@ for i, (x, fs, nombre, t_ini) in enumerate(zip(filtradas, fs_list, nombres, tiem
 plt.tight_layout()
 plt.show()
 ```
+Y las gráficas obtenidas fueron:
+
+<img width="1024" height="548" alt="image" src="https://github.com/user-attachments/assets/0e629d09-bfe6-4f20-85c7-5b64471b3ede" />
+
+<img width="1022" height="275" alt="image" src="https://github.com/user-attachments/assets/50d78225-59c0-4ec3-8738-34c1c8655b05" />
+
 
 **4. Calculos de jitter y del shimmer**
+Finalmente, se calcularon los valores de jitter a partir de la variación de los periodos estimados mediante cruces por cero entre ciclos consecutivos, y los valores de shimmer a partir de la variación de la amplitud obtenida mediante la detección de picos sucesivos de la señal. Estos cálculos se aplicaron a todas las grabaciones, permitiendo evaluar de manera más precisa la estabilidad vocal y la regularidad de las señales analizadas.
 
-Luego, se calcularon los valores de jitter, analizando la variación de los periodos de la señal, y de shimmer, evaluando la variación de la amplitud entre ciclos. Estos cálculos se realizaron para todas las grabaciones con el fin de analizar la estabilidad de las voces.
+El código utilizado para el jitter fue:
+
+```phyton
+import numpy as np
+
+def medir_jitter(señal, fs):
+    # Convertir a mono si es necesario
+    if señal.ndim > 1:
+        señal = señal.mean(axis=1)
+
+    # Normalizar para estabilidad
+    señal = señal / np.max(np.abs(señal))
+
+    # 1. Detectar cruces por cero positivos (de negativo a positivo)
+    cruces = np.where((señal[:-1] < 0) & (señal[1:] >= 0))[0]
+
+    # 2. Calcular periodos Ti (en segundos)
+    tiempos_cruce = cruces / fs
+    periodos = np.diff(tiempos_cruce)  # T_i = t_(i+1) - t_i
+
+    if len(periodos) < 2:
+        return 0.0, 0.0, 0  # no hay suficientes ciclos
+
+    # 3. Calcular jitter absoluto
+    jitter_abs = np.mean(np.abs(np.diff(periodos)))  # |T_(i+1) - T_i|
+
+    # 4. Calcular jitter relativo (%)
+    T_prom = np.mean(periodos)
+    jitter_rel = (jitter_abs / T_prom) * 100
+
+    return jitter_abs, jitter_rel, len(periodos)
+
+# Mujer 3 filtrada
+jitter_abs_m1, jitter_rel_m1, N_m1 = medir_jitter(mujer1_filtrada, fs1)
+jitter_abs_m2, jitter_rel_m2, N_m2 = medir_jitter(mujer2_filtrada, fs2)
+jitter_abs_m3, jitter_rel_m3, N_m3 = medir_jitter(mujer3_filtrada, fs3)
+
+# Hombre 3 filtrada
+jitter_abs_h1, jitter_rel_h1, N_h1 = medir_jitter(hombre1_filtrada, fs4)
+jitter_abs_h2, jitter_rel_h2, N_h2 = medir_jitter(hombre2_filtrada, fs5)
+jitter_abs_h3, jitter_rel_h3, N_h3 = medir_jitter(hombre3_filtrada, fs6)
+
+# --- Imprimir resultados ---
+print(f"Mujer 1  - Jitter absoluto: {jitter_abs_m1*1000:.3f} ms, Jitter relativo: {jitter_rel_m1:.2f} % con {N_m1} periodos")
+print(f"Mujer 2  - Jitter absoluto: {jitter_abs_m2*1000:.3f} ms, Jitter relativo: {jitter_rel_m2:.2f} % con {N_m2} periodos")
+print(f"Mujer 3  - Jitter absoluto: {jitter_abs_m3*1000:.3f} ms, Jitter relativo: {jitter_rel_m3:.2f} % con {N_m3} periodos")
+
+print(f"Hombre 1  - Jitter absoluto: {jitter_abs_h1*1000:.3f} ms, Jitter relativo: {jitter_rel_h1:.2f} % con {N_h1} periodos")
+print(f"Hombre 2  - Jitter absoluto: {jitter_abs_h2*1000:.3f} ms, Jitter relativo: {jitter_rel_h2:.2f} % con {N_h2} periodos")
+print(f"Hombre 3  - Jitter absoluto: {jitter_abs_h3*1000:.3f} ms, Jitter relativo: {jitter_rel_h3:.2f} % con {N_h3} periodos")
+```
+
+Dando como resultado:
+
+<img width="538" height="94" alt="image" src="https://github.com/user-attachments/assets/7058aaa2-c7fe-4144-a86b-232f6740c4a2" />
+
+Y finalmente el código empleado para el cálculo del shimmer fue:
+
+```phyton
+import numpy as np
+from scipy.signal import find_peaks
+
+# FUNCIÓN SHIMMER (ABS + REL)
+
+def medir_shimmer(segmento, fs):
+
+    # normalizar
+    x = segmento / np.max(np.abs(segmento))
+    x = x - np.mean(x)
+
+    # rango voz
+    F0_min = 80
+    F0_max = 300
+
+    # distancia mínima entre picos
+    dist_min = int(fs / F0_max)
+
+    # detectar picos
+    peaks, _ = find_peaks(x, distance=dist_min)
+
+    if len(peaks) < 3:
+        return None, None, len(peaks)
+
+    # amplitudes
+    A = x[peaks]
+
+    # periodos
+    T = np.diff(peaks) / fs
+
+    mask = (T >= 1/F0_max) & (T <= 1/F0_min)
+
+    if np.sum(mask) < 2:
+        return None, None, len(peaks)
+
+    valid_idx = np.where(mask)[0]
+    A_valid = A[np.concatenate(([0], valid_idx + 1))]
+
+    if len(A_valid) < 3:
+        return None, None, len(A_valid)
+
+ 
+    # SHIMMER ABSOLUTO
+
+    shimmer_abs = np.mean(np.abs(np.diff(A_valid)))
+
+  
+    # SHIMMER RELATIVO (%)
+ 
+    shimmer_rel = (shimmer_abs / np.mean(A_valid)) * 100
+
+    return shimmer_abs, shimmer_rel, len(A_valid)
+
+duracion = 0.015  # 15 ms
+
+print("------ SHIMMER FINAL ------\n")
+
+for x, fs, nombre, t_ini in zip(filtradas, fs_list, nombres, tiempos_inicio):
+
+    N = int(duracion * fs)
+    inicio = int(t_ini * fs)
+    segmento = x[inicio:inicio + N]
+
+    shimmer_abs, shimmer_rel, N_ciclos = medir_shimmer(segmento, fs)
+
+    if shimmer_rel is None:
+        print(f"{nombre}: ERROR (pocos ciclos: {N_ciclos})\n")
+    else:
+        print(f"{nombre}:")
+        print(f"  Shimmer absoluto = {shimmer_abs:.4f}")
+        print(f"  Shimmer relativo = {shimmer_rel:.2f}% ({N_ciclos} ciclos)\n")
+```
+Dando como resultado:
+
+<img width="281" height="380" alt="image" src="https://github.com/user-attachments/assets/aa29f372-b4ea-4bd6-a3d9-9e4804786360" />
 
 
 # PARTE C
